@@ -3,10 +3,12 @@
 #include <string>
 #include <stdlib.h>
 #include <ctime>
+#include <windows.h> // Color Library //
 
 using namespace std;
 
 void HangMan(int tries){
+
     cout << endl << endl;
     cout << "   -----" << endl;
     cout << "   |   |" << endl;
@@ -18,10 +20,17 @@ void HangMan(int tries){
                     if(tries >= 6) cout << " \\"; cout << endl;
     cout << "   |" << endl;
     cout << "  _|_" << endl;
+	cout << "     " << endl;
+	cout << "     " << endl;
 }
 
 int main(){
+
 	srand (time(NULL));
+
+	HANDLE Text_Color = GetStdHandle(STD_OUTPUT_HANDLE); // Set for text-color //
+		SetConsoleTextAttribute(Text_Color,15);
+
 	string wordList[5] = {"apple","peach","banana","strawberry","mango"};
 	string word;
 	string guessed;
@@ -37,18 +46,24 @@ int main(){
 	int flagFound = 0;
     int WRONGTRIES = 6;
 
+
 	while(tries>=0){
+
 		system("cls");
 		cout << "Guess Fruit Name: " << endl << endl;
 		 
 		for(int i = 0; i < wordLength; i++)
 			cout << " " << dispWord[i] << " "; 
 		cout << endl << endl << endl;
-		 		
+		 	
+			SetConsoleTextAttribute(Text_Color,4);
 		cout << "Wrong Attempts: " << tries << " / " << WRONGTRIES << endl;
+			SetConsoleTextAttribute(Text_Color,15);
 		cout << "Guessed Letters: " << guessed << endl; 
-		
+
+			SetConsoleTextAttribute(Text_Color,1);
 		HangMan(tries);
+			SetConsoleTextAttribute(Text_Color,15);
 		
 		if( found == wordLength ){
 			cout << endl;
@@ -79,7 +94,9 @@ int main(){
 		if( !flagFound )
 			tries++;
 	}
+
 	if( found != wordLength ){
+
 		cout << endl;
 		cout << "******************" << endl;
 		cout << "*    You Lose    *" << endl;
