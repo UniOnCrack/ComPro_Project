@@ -4,10 +4,12 @@
 #include <stdlib.h>
 #include <ctime>
 #include <windows.h> // Color Library //
+#include <vector>
+#include<fstream>
 
 using namespace std;
 
-void HangMan(int tries){
+void HangManCreate(int tries){
 
     cout << endl << endl;
     cout << "   -----" << endl;
@@ -24,19 +26,39 @@ void HangMan(int tries){
 	cout << "     " << endl;
 }
 
-void test(int lv){
+void importWord(int lv, vector<string> &x){
+    string textline;
+	string A;
+
+	if(lv = 1){
+		ifstream word;
+    	word.open("word/lv1");
+		char word_1[500];
+
+		while(getline(word,textline)){
+			sscanf(textline.c_str(),"%d",word_1);
+			A = word_1;
+			x.push_back(A);
+		}
+    }
+	
+}
+
+
+void HangManPlay(int lv){
 
 	srand (time(NULL));
 
 	HANDLE Text_Color = GetStdHandle(STD_OUTPUT_HANDLE); // Set for text-color //
 		SetConsoleTextAttribute(Text_Color,15);
 
-	string wordList[5] = {"apple","peach","banana","strawberry","mango"};
+	vector<string> wordList;
 	string word;
 	string guessed;
 	
-	word = wordList[rand()%5];
-	
+	importWord(lv,wordList);
+	word = wordList[rand()%500];
+
 	int wordLength = word.length();
 	string dispWord (wordLength, '_');
 	
@@ -62,7 +84,7 @@ void test(int lv){
 		cout << "Guessed Letters: " << guessed << endl; 
 
 			SetConsoleTextAttribute(Text_Color,1);
-		HangMan(tries);
+		HangManCreate(tries);
 			SetConsoleTextAttribute(Text_Color,15);
 		
 		if( found == wordLength ){
